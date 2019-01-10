@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import BookmarkForm from "./../forms/BookmarkForm";
 import BookmarkUpdateForm from "./../forms/BookmarkUpdateForm";
-import { fetchBookmarks, deleteBookmark, updateBookmark } from "./../../actions";
+import { fetchBookmarks, deleteBookmark, editBookmark } from "./../../actions";
 import { connect } from "react-redux";
 
 class BookmarksPage extends Component {
@@ -13,30 +13,38 @@ class BookmarksPage extends Component {
     }
 
     render() {
-        const { bookmarks, deleteBookmark, updateCurrentBookmark } = this.props;
+        const { bookmarks, deleteBookmark, editBookmark, getBookmark } = this.props;
 
         return (
+            
             <div>
-                <div>
-                    <h2>New Bookmark</h2>
-                    <BookmarkForm />
-                </div>
-                <div>
-                    <h2>All Bookmarks</h2>
-                    <ul>
-                        {bookmarks.map(bookmark => {
-                            return (
-                                <li key={bookmark._id}>
-                                    <a href={bookmark.url}>{bookmark.title}</a>
-                                    <BookmarkUpdateForm bookmark={bookmark} />
-                                    {/* <button onClick={() => <BookmarkUpdateForm bookmark={bookmark} />}>Edit</button> */}
-                                    <button onClick={() => deleteBookmark(bookmark._id)}>Delete</button>
-                                </li>
-                            );
-                        })}
-                    </ul>
-                </div>
+                {!getBookmark ? (
+                    <div>
+                    <div>
+                        <h2>New Bookmark</h2>
+                        <BookmarkForm />
+                    </div>
+                    <div>
+                        <h2>All Bookmarks</h2>
+                        <ul>
+                            {bookmarks.map(bookmark => {
+                                return (
+                                    <li key={bookmark._id}>
+                                        <a href={bookmark.url} target="_blank">{bookmark.title}</a>
+                                        {/* <BookmarkUpdateForm bookmark={bookmark} /> */}
+                                        <button onClick={() => editBookmark(bookmark._id)}>Edit</button>
+                                        <button onClick={() => deleteBookmark(bookmark._id)}>Delete</button>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </div>
+                    </div>
+                ) : (
+                    <div><BookmarkUpdateForm bookmark={getBookmark} /></div>
+                )}
             </div>
+
         );
     };
 };
@@ -44,12 +52,13 @@ class BookmarksPage extends Component {
 ///// Map redux state to component props. Pretty much gives us access to state, through props /////
 const mapStateToProps = (state) => {
     return {
-        bookmarks: state.bookmarks
+        bookmarks: state.bookmarks,
+        getBookmark: state.getBookmark
     }
 }
 
 export default connect(mapStateToProps, {
     fetchBookmarks,
     deleteBookmark,
-    updateBookmark
+    editBookmark
 })(BookmarksPage);

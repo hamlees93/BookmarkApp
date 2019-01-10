@@ -63,13 +63,18 @@ export const editBookmark = (id) => {
     }
 }
 
-export const updateBookmark = (id) => {
+export const updateBookmark = (bookmark) => {
     return async (dispatch, getState) => {
-        let response = await LocalApi.put(`/bookmarks/${id}`);
+        const { id, title, url } = bookmark;
+        let response = await LocalApi.put(`/bookmarks/${id}`, {title, url});
 
         dispatch({
             type: "BOOKMARKS_LIST",
             payload: response.data
+        })
+        dispatch({
+            type: "EDIT_BOOKMARK",
+            payload: false
         })
     }
 }

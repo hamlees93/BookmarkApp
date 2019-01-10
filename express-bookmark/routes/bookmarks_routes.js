@@ -12,9 +12,11 @@ router.post("/", celebrate({
 
 router.get("/", BookmarkController.index);
 
-router.put("/:id", BookmarkController.edit); 
+router.get("/:id", BookmarkController.edit);
 
-router.patch("/:id", BookmarkController.edit);
+router.put("/:id", BookmarkController.update); 
+
+router.patch("/:id", BookmarkController.update);
 
 router.delete("/:id", BookmarkController.destroy);
 

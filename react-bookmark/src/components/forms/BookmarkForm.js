@@ -13,6 +13,10 @@ const Input = ({input, meta, type}) => {
 }
 
 class BookmarkForm extends Component {
+    componentDidMount() {
+        this.props.initialize({ url: "http://" });
+    }
+
     onFormSubmit = async (formValues) => {
         const { title, url } = formValues;
         const { createBookmark, reset } = this.props;
@@ -37,6 +41,7 @@ class BookmarkForm extends Component {
                     <Field
                         type="text"
                         name="url"
+                        value="http://"
                         component={Input}
                     />
                 </div>

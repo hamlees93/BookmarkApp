@@ -7,6 +7,6 @@ import { reducer as formReducer } from "redux-form";
 export default combineReducers({
     auth: authReducer,
     bookmarks: bookmarkListReducer,
-    edit: editBookmarkReducer,
+    getBookmark: editBookmarkReducer,
     form: formReducer
 });

@@ -13,11 +13,16 @@ const Input = ({input, meta, type}) => {
 }
 
 class BookmarkUpdateForm extends Component {
+    componentDidMount() {
+        let {title, url} = this.props.bookmark;
+        this.props.initialize({ title, url });
+      }
+
     onFormSubmit = async (formValues) => {
         const { title, url } = formValues;
-        const { updateBookmark, reset } = this.props;
-        updateBookmark({ title, url });
-        reset();
+        const { updateBookmark, bookmark } = this.props;
+        const id = bookmark._id;
+        updateBookmark({ id, title, url });
     }
 
     render() {
@@ -31,7 +36,7 @@ class BookmarkUpdateForm extends Component {
                     <Field
                         type="text"
                         name="title"
-                        // value={title}
+                        value={title}
                         component={Input}
                     />
                 </div>
@@ -40,7 +45,7 @@ class BookmarkUpdateForm extends Component {
                     <Field
                         type="text"
                         name="url"
-                        // value={url}
+                        value={url}
                         component={Input}
                     />
                 </div>

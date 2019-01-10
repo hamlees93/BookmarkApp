@@ -17,11 +17,21 @@ async function create(req, res) {
     }
 };
 
-async function edit(req,res) {
+function edit(req, res) {
     let { id } = req.params;
     let bookmark = req.user.bookmarks.id(id);
-    let title = "new title";
-    let url = "http://www.google.com";
+
+    try {
+        return res.json(bookmark);
+    } catch( err ) {
+        next(err);
+    }
+};
+
+async function update(req,res) {
+    let { id } = req.params;
+    let { title, url } = req.body;
+    let bookmark = req.user.bookmarks.id(id);
 
     try {
         bookmark.title = title;
@@ -50,5 +60,6 @@ module.exports = {
     index,
     create,
     edit,
+    update,
     destroy
 };
