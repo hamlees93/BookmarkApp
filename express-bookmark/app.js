@@ -4,12 +4,15 @@ const app = express();
 const cors = require("cors");
 const passport = require("./config/passport");
 
+//// Command to start passport ////
 app.use(passport.initialize());
 
+//// Validate where data comes from ////
 app.use(cors({
     origin: process.env.FRONT_END_DOMAIN
 }));
 
+//// Allow blob responses to be readable ////
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 

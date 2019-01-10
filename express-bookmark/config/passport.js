@@ -1,3 +1,5 @@
+//// Use passport to validate user via the createStrategy() function ////
+
 const passport = require("passport");
 const UserModel = require("./../database/models/user_model");
 const { Strategy: JwtStrategy, ExtractJwt } = require("passport-jwt");

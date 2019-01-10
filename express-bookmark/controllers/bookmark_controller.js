@@ -1,3 +1,4 @@
+//// Use info comes through with request, so we are able to acces all their bookmarks through the call below ////
 async function index(req,res) {
     try {
         const response = await res.json(req.user.bookmarks);
@@ -17,6 +18,7 @@ async function create(req, res) {
     }
 };
 
+//// Get the bookmark ID from the params, then use that ID to get the correct bookmark from mongo, and return it ////
 function edit(req, res) {
     let { id } = req.params;
     let bookmark = req.user.bookmarks.id(id);
@@ -28,6 +30,7 @@ function edit(req, res) {
     }
 };
 
+//// Get the title and url from the request, the pull up the correct bookmark and alter its data and await the save ////
 async function update(req,res) {
     let { id } = req.params;
     let { title, url } = req.body;
@@ -39,10 +42,11 @@ async function update(req,res) {
         await req.user.save();
         return res.json(req.user.bookmarks);
     } catch (error) {
-        console.log(error);
+        next(error);
     }
 };
 
+//// Once again, get the ID and bookmark, then delete it and await successful response ////
 async function destroy(req,res) {
     let { id } = req.params;
     let bookmark = req.user.bookmarks.id(id);

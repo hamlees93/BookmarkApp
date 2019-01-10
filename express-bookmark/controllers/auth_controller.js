@@ -1,6 +1,7 @@
 const UserModel = require("./../database/models/user_model");
 const JWTService = require("./../services/jwt_service");
 
+//// Receive email and password from react rego form to create new user from the UserModel. Return the token to react ////
 function register(req, res, next) {
     const { email, password } = req.body;
     const user = new UserModel({ email });
@@ -16,6 +17,7 @@ function register(req, res, next) {
     });
 };
 
+//// Verification is done in routes and database, so this function is purely to create JWT token ////
 function login (req,res) {
     const user = req.user;
     const token = JWTService.generateToken(user);
