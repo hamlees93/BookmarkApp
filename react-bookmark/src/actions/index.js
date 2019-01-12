@@ -18,14 +18,22 @@ export const removeAuthToken = () => {
     };
 };
 
+export const searchBookmarks = (searchTerm) => {
+    return {
+        type: "SEARCH_BOOKMARKS",
+        payload: searchTerm
+    }
+}
+
 //// Can't use async and await in actions, so we must use redux-middleware ////
-export const fetchBookmarks = () => {
+export const fetchBookmarks = (searchTerm) => {
     return async (dispatch, getState) => {
         let response = await LocalApi.get("/bookmarks");
+        let searchedResponse = response.data.filter((bookmark) => bookmark.title.includes(searchTerm));
 
         dispatch({
             type: "BOOKMARKS_LIST",
-            payload: response.data
+            payload: searchedResponse
         });
     }
 };

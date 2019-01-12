@@ -1,5 +1,4 @@
 import axios from "axios";
-// import JWT from "jsonwebtoken";
 import store from "./../store"
 
 //this creates an instance of axios that we can modify//
