@@ -3,7 +3,6 @@ import authReducer from "./auth_reducer";
 import bookmarkListReducer from "./bookmark_list_reducer";
 import editBookmarkReducer from "./edit_bookmark";
 import searchReducer from "./search_reducer";
-// import searchedBookmarkReducer from "./display_searched_bookmark_reducer";
 import { reducer as formReducer } from "redux-form";
 
 export default combineReducers({
@@ -12,5 +11,4 @@ export default combineReducers({
     getBookmark: editBookmarkReducer,
     form: formReducer,
     search: searchReducer
-    // display: searchedBookmarkReducer
 });

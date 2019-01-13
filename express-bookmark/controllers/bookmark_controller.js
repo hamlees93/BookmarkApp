@@ -37,7 +37,7 @@ async function update(req,res) {
     let bookmark = req.user.bookmarks.id(id);
 
     try {
-        bookmark.title = title;
+        bookmark.title = title.toLowerCase();
         bookmark.url = url;
         await req.user.save();
         return res.json(req.user.bookmarks);

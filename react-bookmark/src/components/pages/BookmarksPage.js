@@ -5,7 +5,7 @@ import { fetchBookmarks, deleteBookmark, editBookmark, searchBookmarks } from ".
 import { connect } from "react-redux";
 
 class BookmarksPage extends Component {
-    state = {displayBookmarks: this.props.bookmarks}
+    state = {displayBookmarks: []}
 
     componentDidMount() {
         //// Call an action creator to go off, get out data and hand off to our reducer. Redux will notice a change to state and will re-render /////
@@ -15,12 +15,8 @@ class BookmarksPage extends Component {
     }
 
     bookmarkSearchResults(searchTerm) {
-        // this.setState({ displayBookmarks: this.props.bookmarks })
-        //  = this.props.bookmarks;
-        console.log(this.state)
-        // console.log(searchResults)
-        // searchResults.filter((bookmark) => bookmark.title.includes(searchTerm));
-        // return searchResults;
+        let { bookmarks: displayedBookmarks } = this.props; 
+        this.setState({ displayBookmarks: displayedBookmarks.filter((bookmark) => bookmark.title.includes(searchTerm.toLowerCase())) });
     }
 
     render() {
@@ -40,20 +36,33 @@ class BookmarksPage extends Component {
                             <input 
                                 type="text" 
                                 placeholder="Search Bookmarks"
-                                onChange={(event) => searchBookmarks(event.target.value)} 
+                                onChange={(event) => {searchBookmarks(event.target.value); this.bookmarkSearchResults(event.target.value)}} 
                             />
-                            {this.bookmarkSearchResults(search)}
-                            <ul>
-                                {bookmarks.map(bookmark => {
-                                    return (
-                                        <li key={bookmark._id}>
-                                            <a href={bookmark.url} target="_blank" rel="noopener noreferrer">{bookmark.title}</a>
-                                            <button onClick={() => editBookmark(bookmark._id)}>Edit</button>
-                                            <button onClick={() => deleteBookmark(bookmark._id)}>Delete</button>
-                                        </li>
-                                    );
-                                })}
-                            </ul>
+                            {search ? (
+                                <ul>
+                                    {this.state.displayBookmarks.map(bookmark => {
+                                        return (
+                                            <li key={bookmark._id}>
+                                                <a href={bookmark.url} target="_blank" rel="noopener noreferrer">{bookmark.title}</a>
+                                                <button onClick={() => editBookmark(bookmark._id)}>Edit</button>
+                                                <button onClick={() => deleteBookmark(bookmark._id)}>Delete</button>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                                ) : (
+                                <ul>
+                                    {bookmarks.map(bookmark => {
+                                        return (
+                                            <li key={bookmark._id}>
+                                                <a href={bookmark.url} target="_blank" rel="noopener noreferrer">{bookmark.title}</a>
+                                                <button onClick={() => editBookmark(bookmark._id)}>Edit</button>
+                                                <button onClick={() => deleteBookmark(bookmark._id)}>Delete</button>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                                )}                                
                         </div>
                     </div>
                 ) : (
@@ -71,7 +80,6 @@ const mapStateToProps = (state) => {
         bookmarks: state.bookmarks,
         getBookmark: state.getBookmark,
         search: state.search
-        // display: state.display
     }
 }
 

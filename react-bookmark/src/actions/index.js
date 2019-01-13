@@ -40,6 +40,7 @@ export const fetchBookmarks = (searchTerm) => {
 
 export const createBookmark = ({title, url}) => {
     return async (dispatch, getState) => {
+        title = title.toLowerCase();
         let response = await LocalApi.post("/bookmarks", {title, url});
 
         dispatch({
